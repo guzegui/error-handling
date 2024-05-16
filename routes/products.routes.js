@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 const Products = require("./../models/Product.model");
 
+const { validateProduct } = require("../error-handling/products-errors");
+
 router.get("/", (req, res, next) => {
   Products.find()
     .then((products) => {
@@ -10,7 +12,7 @@ router.get("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", validateProduct, (req, res, next) => {
   Products.create(req.body)
     .then((newProduct) => {
       res.json(newProduct);
