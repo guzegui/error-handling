@@ -12,6 +12,14 @@ router.get("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+router.get("/:id", (req, res, next) => {
+
+    const { id } = req.params;
+    Products.findById(id)
+      .then((product) => res.json(product))
+      .catch((error) => next(error));
+  });
+
 router.post("/", validateProduct, (req, res, next) => {
   Products.create(req.body)
     .then((newProduct) => {
